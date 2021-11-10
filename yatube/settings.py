@@ -25,13 +25,17 @@ SECRET_KEY = 'hdnml$1s43&oepcg^k4ui+6ln3(ou9_n5f_(71t10(aiwpca+o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "django.itfridge.ru",
+    "192.168.88.31",
+    "193.201.88.139",
+    "127.0.0.1",
+]
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'posts',
     'users',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,6 +43,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'about',
+    'posts',
+    'sorl.thumbnail',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -49,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'yatube.urls'
@@ -133,12 +142,34 @@ STATIC_URL = '/static/'
 # статика
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 # Login
 LOGIN_URL = "/auth/login/"
 LOGIN_REDIRECT_URL = "index"
 LOGOUT_REDIRECT_URL = "index"
 
 #  подключаем движок filebased.EmailBackend
-EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+#EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 # указываем директорию, в которую будут складываться файлы писем
-EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
+#EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
+
+EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = 'xoste49@yandex.ru'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'xoste49'
+EMAIL_HOST_PASSWORD = 'huhmgndatbywadyx'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    }
+}
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+    '192.168.88.27'
+]
