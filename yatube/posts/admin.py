@@ -1,18 +1,19 @@
 from django.contrib import admin
 # из файла models импортируем модель Post
-from .models import Post
+from .models import Post, Group
 
 
+@admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    # перечисляем поля, которые должны отображаться в админке
+    """Класс PostAdmin используется для работы с публикациями на сайте"""
     list_display = ("pk", "text", "pub_date", "author")
-    # добавляем интерфейс для поиска по тексту постов
     search_fields = ("text",)
-    # добавляем возможность фильтрации по дате
     list_filter = ("pub_date",)
-    # это свойство сработает для всех колонок: где пусто - там будет эта строка
     empty_value_display = "-пусто-"
 
-# при регистрации модели Post источником
-# конфигурации для неё назначаем класс PostAdmin
-admin.site.register(Post, PostAdmin)
+
+@admin.register(Group)
+class GroupAdmin(admin.ModelAdmin):
+    """Класс GroupAdmin для работы с групами"""
+    list_display = ("pk", "title", "description")
+    empty_value_display = "-пусто-"
